@@ -103,21 +103,32 @@ Every visual slot renders a labelled placeholder that names the file it wants. T
 1. Drop the file in `/public` at the exact path shown on the placeholder — e.g. `public/images/profile.jpg`.
 2. Uncomment that path in `AVAILABLE_ASSETS` in `src/constants/assets.ts`.
 
-The directories already exist. The main slots:
+**Already wired up:**
 
-| Save as | Shows up as |
+| File | Shows up as |
+| --- | --- |
+| `public/images/projects/asint-cover.png` | ASINT flagship banner + card |
+| `public/images/projects/dwh-cover.png` | Data Warehouse card |
+| `public/images/projects/efahub-cover.jpg` | EfaHub card |
+| `public/images/projects/call-operator-cover.png` | AI Call Operator card |
+| `public/images/logos/asint.png` | Flagship header bar |
+| `public/images/logos/link-data.png` | Link Data experience row |
+| `public/images/logos/tsue.png` | University row |
+| `public/images/education/tsue-campus.png` | Education photo |
+
+**Still placeholders** (commented out in `assets.ts` — add the file, uncomment the line):
+
+| File | Shows up as |
 | --- | --- |
 | `public/images/profile.jpg` | Hero portrait |
-| `public/images/projects/asint-cover.png` | ASINT card |
-| `public/images/projects/efahub-cover.png` | EfaHub card |
-| `public/images/projects/call-operator-cover.png` | AI Call Operator card |
-| `public/images/projects/dwh-cover.png` | Data Warehouse card |
 | `public/images/projects/attendance-cover.png` | Face Attendance card |
-| `public/images/diagrams/asint-architecture.png` | Featured architecture diagram |
-| `public/images/education/tsue-campus.jpg` | University photo |
-| `public/images/logos/tsue.png` | University logo |
-| `public/images/logos/link-data.png` | Link Data logo |
-| `public/images/logos/islab.png` | ISLAB logo |
+| `public/images/diagrams/*.png` | Case-study architecture diagrams |
+| `public/images/logos/islab.png` | ISLAB experience row |
+| `public/images/logos/{ibm,deeplearning-ai,datacamp}.png` | Certificate rows |
+
+The originals you dropped into the project root were moved to `design/source-images/` (still tracked in git) — `public/images/` holds the renamed copies the site actually serves.
+
+**Photo vs logo.** Set `coverFit: "contain"` on a project in `src/data/projects.ts` when the cover is a brand mark rather than a photo — it letterboxes the logo over a blurred copy of itself instead of cropping it. Photos use the default `"cover"`.
 
 Tech-stack logos (AWS, GCP, Hetzner, Python, Docker …) are **not** images — they render as vector brand icons from `react-icons`, so they stay sharp at any size and cost no bandwidth.
 

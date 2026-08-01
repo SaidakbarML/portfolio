@@ -4,6 +4,9 @@ import * as React from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight, CircleAlert, Layers, Server, Sparkles, TrendingUp } from "lucide-react";
 
+import Image from "next/image";
+
+import { ASSET_PATHS, asset } from "@/constants/assets";
 import { FEATURED_PROJECT } from "@/data/projects";
 import { AnimatedCounter } from "@/components/animations/AnimatedCounter";
 import { Reveal } from "@/components/animations/Reveal";
@@ -30,6 +33,7 @@ export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => vo
   const { t } = useI18n();
 
   const copy = t.projects.items.asint;
+  const asintLogo = asset(ASSET_PATHS.logos.asint);
   const metricLabels = copy.metrics as Record<string, string>;
 
   const { scrollYProgress } = useScroll({
@@ -46,7 +50,17 @@ export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => vo
             className="flex flex-wrap items-center justify-between gap-3 px-5 py-2.5"
             style={{ background: "var(--fg)", color: "var(--surface)" }}
           >
-            <span className="font-mono text-[11px] uppercase tracking-[0.24em]">
+            <span className="flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.24em]">
+              {asintLogo && (
+                <Image
+                  src={asintLogo}
+                  alt=""
+                  aria-hidden
+                  width={64}
+                  height={18}
+                  className="h-4 w-auto brightness-0 invert dark:invert-0"
+                />
+              )}
               {t.projects.flagship} — {t.projects.statuses[project.status].toLowerCase()}
             </span>
             <span className="font-mono text-[11px] tracking-widest">{project.year}</span>
@@ -87,11 +101,11 @@ export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => vo
 
             <motion.div style={reduceMotion ? undefined : { y: diagramY }}>
               <Placeholder
-                src={project.architectureDiagram}
-                alt={t.projects.architectureDiagram}
-                label={t.projects.architectureDiagram}
-                hint={`public${project.architectureDiagram}`}
-                icon="workflow"
+                src={project.cover}
+                alt={copy.name}
+                label={copy.name}
+                hint={`public${project.cover}`}
+                icon="line-chart"
                 aspect="aspect-4/3"
                 sizes="(max-width: 1024px) 90vw, 34rem"
                 className="rounded-none"

@@ -57,6 +57,7 @@ export function ProjectCard({
             label={copy.name}
             hint={`public${project.cover}`}
             icon="line-chart"
+            fit={project.coverFit}
             aspect="aspect-16/9"
             sizes="(max-width: 768px) 90vw, 26rem"
             className="rounded-none border-0"

@@ -19,6 +19,13 @@ interface PlaceholderProps {
   aspect?: string;
   priority?: boolean;
   sizes?: string;
+  /**
+   * "cover" crops a photo to fill the slot. "contain" keeps a logo whole and
+   * letterboxes it, which is what brand marks need.
+   */
+  fit?: "cover" | "contain";
+  /** Extra classes on the <img>, e.g. "object-top" to control the crop. */
+  imageClassName?: string;
 }
 
 /**
@@ -35,6 +42,8 @@ export function Placeholder({
   aspect = "aspect-16/10",
   priority = false,
   sizes = "(max-width: 768px) 100vw, 50vw",
+  fit = "cover",
+  imageClassName,
 }: PlaceholderProps) {
   const resolved = asset(src);
 
@@ -47,15 +56,33 @@ export function Placeholder({
       )}
     >
       {resolved ? (
-        <Image
-          src={resolved}
-          alt={alt}
-          fill
-          sizes={sizes}
-          priority={priority}
-          loading={priority ? undefined : "lazy"}
-          className="object-cover"
-        />
+        <>
+          {fit === "contain" && (
+            // Blurred fill behind a letterboxed logo, so the slot never
+            // shows dead space.
+            <Image
+              src={resolved}
+              alt=""
+              aria-hidden
+              fill
+              sizes={sizes}
+              className="scale-110 object-cover opacity-20 blur-2xl"
+            />
+          )}
+          <Image
+            src={resolved}
+            alt={alt}
+            fill
+            sizes={sizes}
+            priority={priority}
+            loading={priority ? undefined : "lazy"}
+            className={cn(
+              "relative",
+              fit === "contain" ? "object-contain p-8" : "object-cover",
+              imageClassName,
+            )}
+          />
+        </>
       ) : (
         <>
           <div aria-hidden className="absolute inset-0 grid-bg opacity-60" />

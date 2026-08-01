@@ -75,6 +75,8 @@ export interface Project {
   featured?: boolean;
   accent: Accent;
   cover: string;
+  /** Logos need 'contain' so they aren't cropped; photos use 'cover'. */
+  coverFit?: "cover" | "contain";
   screenshots: string[];
   architectureDiagram: string;
   metricKeys: string[];
