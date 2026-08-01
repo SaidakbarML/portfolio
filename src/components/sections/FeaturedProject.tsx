@@ -9,62 +9,66 @@ import { AnimatedCounter } from "@/components/animations/AnimatedCounter";
 import { Reveal } from "@/components/animations/Reveal";
 import { TechIcon } from "@/components/common/Icon";
 import { Placeholder } from "@/components/common/Placeholder";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 
 const project = FEATURED_PROJECT;
 
-const STAGES = [
-  { key: "problem", label: "Problem", icon: CircleAlert, body: project.problem },
-  { key: "solution", label: "Solution", icon: Sparkles, body: project.solution },
-  { key: "architecture", label: "System design", icon: Layers, body: project.architecture },
-  { key: "deployment", label: "Deployment", icon: Server, body: project.deployment },
-  { key: "impact", label: "Impact", icon: TrendingUp, body: project.impact },
-];
+const STAGE_ICONS = {
+  problem: CircleAlert,
+  solution: Sparkles,
+  architecture: Layers,
+  deployment: Server,
+  impact: TrendingUp,
+} as const;
+
+const STAGE_KEYS = ["problem", "solution", "architecture", "deployment", "impact"] as const;
 
 export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => void }) {
   const ref = React.useRef<HTMLDivElement>(null);
   const reduceMotion = useReducedMotion();
+  const { t } = useI18n();
+
+  const copy = t.projects.items.asint;
+  const metricLabels = copy.metrics as Record<string, string>;
 
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-  const diagramY = useTransform(scrollYProgress, [0, 1], [50, -50]);
+  const diagramY = useTransform(scrollYProgress, [0, 1], [40, -40]);
 
   return (
-    <div ref={ref} className="mt-16">
-      {/* Flagship banner */}
+    <div ref={ref} className="mt-12">
       <Reveal direction="none">
         <div className="border-2 border-[color:var(--fg)]">
           <div
-            className="flex flex-wrap items-center justify-between gap-3 px-6 py-3"
+            className="flex flex-wrap items-center justify-between gap-3 px-5 py-2.5"
             style={{ background: "var(--fg)", color: "var(--surface)" }}
           >
             <span className="font-mono text-[11px] uppercase tracking-[0.24em]">
-              flagship — {project.status.toLowerCase()}
+              {t.projects.flagship} — {t.projects.statuses[project.status].toLowerCase()}
             </span>
             <span className="font-mono text-[11px] tracking-widest">{project.year}</span>
           </div>
 
-          <div className="grid gap-10 p-6 sm:p-10 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          <div className="grid gap-8 p-5 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
             <div>
-              <h3 className="display text-[clamp(3rem,9vw,7rem)]">{project.name}</h3>
-              <p className="mt-4 max-w-lg text-xl leading-snug sm:text-2xl">
-                {project.tagline}
-              </p>
-              <p className="mt-5 max-w-lg text-[15px] leading-relaxed text-[color:var(--fg-muted)]">
-                {project.summary}
+              <h3 className="display text-[clamp(2.5rem,7vw,5.5rem)]">{copy.name}</h3>
+              <p className="mt-3 max-w-lg text-lg leading-snug sm:text-xl">{copy.tagline}</p>
+              <p className="mt-4 max-w-lg text-[14px] leading-relaxed text-[color:var(--fg-muted)]">
+                {copy.summary}
               </p>
 
-              <div className="mt-8 flex flex-wrap gap-3">
+              <div className="mt-6 flex flex-wrap gap-3">
                 <button
                   type="button"
                   onClick={onOpenCaseStudy}
-                  className="flex items-center gap-2 px-6 py-3.5 text-sm font-bold transition-transform hover:-translate-y-1"
+                  className="flex items-center gap-2 px-5 py-3 text-sm font-bold transition-transform hover:-translate-y-1"
                   style={{ background: "var(--accent)", color: "var(--on-accent)" }}
                 >
                   <Layers className="size-4" aria-hidden />
-                  Read the case study
+                  {t.projects.readCaseStudy}
                 </button>
                 {project.links.map((link) => (
                   <a
@@ -72,9 +76,9 @@ export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => vo
                     href={link.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="group flex items-center gap-2 border border-[color:var(--line-strong)] px-6 py-3.5 text-sm font-semibold transition-colors hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
+                    className="group flex items-center gap-2 border border-[color:var(--line-strong)] px-5 py-3 text-sm font-semibold transition-colors hover:border-[color:var(--accent)] hover:text-[color:var(--accent)]"
                   >
-                    {link.label}
+                    {(copy.links as Record<string, string>)[link.key]}
                     <ArrowUpRight className="size-4 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
                   </a>
                 ))}
@@ -84,27 +88,24 @@ export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => vo
             <motion.div style={reduceMotion ? undefined : { y: diagramY }}>
               <Placeholder
                 src={project.architectureDiagram}
-                alt="ASINT architecture illustration"
-                label="Architecture diagram"
+                alt={t.projects.architectureDiagram}
+                label={t.projects.architectureDiagram}
                 hint={`public${project.architectureDiagram}`}
                 icon="workflow"
-                accent="cyan"
                 aspect="aspect-4/3"
-                sizes="(max-width: 1024px) 90vw, 40rem"
+                sizes="(max-width: 1024px) 90vw, 34rem"
                 className="rounded-none"
               />
             </motion.div>
           </div>
 
-          {/* Metric band */}
           <dl className="grid grid-cols-2 border-t-2 border-[color:var(--fg)] lg:grid-cols-4">
-            {project.metrics.map((metric, i) => (
+            {project.metrics.map((metric) => (
               <div
-                key={metric.label}
-                className="border-b border-[color:var(--line)] p-5 lg:border-b-0 lg:[&:not(:last-child)]:border-r lg:[&:not(:last-child)]:border-[color:var(--line)]"
-                style={i % 2 === 0 ? undefined : undefined}
+                key={metric.key}
+                className="border-b border-[color:var(--line)] p-4 lg:border-b-0 lg:[&:not(:last-child)]:border-r lg:[&:not(:last-child)]:border-[color:var(--line)]"
               >
-                <dd className="display text-[clamp(1.75rem,4vw,2.75rem)]">
+                <dd className="display text-[clamp(1.5rem,3.5vw,2.25rem)]">
                   <AnimatedCounter
                     value={metric.value}
                     prefix={metric.prefix}
@@ -112,7 +113,7 @@ export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => vo
                     decimals={metric.decimals}
                   />
                 </dd>
-                <dt className="mono-label mt-2">{metric.label}</dt>
+                <dt className="mono-label mt-1.5">{metricLabels[metric.key]}</dt>
               </div>
             ))}
           </dl>
@@ -120,15 +121,15 @@ export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => vo
       </Reveal>
 
       {/* Sticky system breakdown */}
-      <div className="mt-14 grid gap-10 lg:grid-cols-[0.38fr_0.62fr] lg:gap-14">
-        <div className="lg:sticky lg:top-24 lg:h-fit">
+      <div className="mt-10 grid gap-8 lg:grid-cols-[0.38fr_0.62fr] lg:gap-12">
+        <div className="lg:sticky lg:top-20 lg:h-fit">
           <Reveal>
-            <p className="mono-label">system breakdown</p>
-            <h4 className="display mt-4 text-[clamp(1.5rem,3.5vw,2.5rem)]">
-              A fragmented market, turned into one{" "}
-              <span style={{ color: "var(--accent)" }}>priced API</span>
+            <p className="mono-label">{t.projects.systemBreakdown}</p>
+            <h4 className="display mt-3 text-[clamp(1.35rem,3vw,2.1rem)]">
+              {t.projects.breakdownTitle}{" "}
+              <span style={{ color: "var(--accent)" }}>{t.projects.breakdownAccent}</span>
             </h4>
-            <ul className="mt-7 flex flex-wrap gap-1.5">
+            <ul className="mt-5 flex flex-wrap gap-1.5">
               {project.stack.slice(0, 8).map((tech) => (
                 <li
                   key={tech}
@@ -143,54 +144,34 @@ export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => vo
         </div>
 
         <ol className="flex flex-col">
-          {STAGES.map((stage, index) => {
-            const Icon = stage.icon;
+          {STAGE_KEYS.map((key, index) => {
+            const Icon = STAGE_ICONS[key];
             return (
               <motion.li
-                key={stage.key}
-                initial={{ opacity: 0, y: 30 }}
+                key={key}
+                initial={{ opacity: 0, y: 26 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.35 }}
-                transition={{ duration: 0.65, ease: EASE_OUT_EXPO }}
-                className="border-t border-[color:var(--line)] py-7 last:border-b"
+                transition={{ duration: 0.6, ease: EASE_OUT_EXPO }}
+                className="border-t border-[color:var(--line)] py-5 last:border-b"
               >
                 <div className="flex items-center gap-3">
                   <span className="font-mono text-[11px] tracking-widest text-[color:var(--accent)]">
                     {String(index + 1).padStart(2, "0")}
                   </span>
                   <Icon className="size-4 text-[color:var(--fg-faint)]" aria-hidden />
-                  <h5 className="text-lg font-semibold tracking-tight">{stage.label}</h5>
+                  <h5 className="text-base font-semibold tracking-tight">
+                    {t.projects.stages[key]}
+                  </h5>
                 </div>
-                <p className="mt-3 text-[15px] leading-relaxed text-[color:var(--fg-muted)]">
-                  {stage.body}
+                <p className="mt-2.5 text-[14px] leading-relaxed text-[color:var(--fg-muted)]">
+                  {copy[key]}
                 </p>
               </motion.li>
             );
           })}
         </ol>
       </div>
-
-      {/* Challenges */}
-      <Reveal className="mt-14">
-        <p className="mono-label">engineering challenges</p>
-        <ul className="mt-5 grid gap-px border border-[color:var(--line)] bg-[color:var(--line)] sm:grid-cols-2">
-          {project.challenges.map((challenge, i) => (
-            <li key={challenge.heading} className="bg-[color:var(--surface)] p-6">
-              <div className="flex items-baseline gap-3">
-                <span className="font-mono text-[11px] text-[color:var(--accent)]">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                <h5 className="text-base font-semibold tracking-tight">
-                  {challenge.heading}
-                </h5>
-              </div>
-              <p className="mt-3 text-[14px] leading-relaxed text-[color:var(--fg-muted)]">
-                {challenge.body}
-              </p>
-            </li>
-          ))}
-        </ul>
-      </Reveal>
     </div>
   );
 }
