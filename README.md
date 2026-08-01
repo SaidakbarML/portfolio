@@ -2,7 +2,7 @@
 
 A personal site for a Machine Learning / Data Engineer, built around a **pipeline** metaphor: the page is a DAG you scroll through. Each section is a *stage* rendered on an inverted slab, so the site alternates between ink and paper rather than being a dark theme or a light one.
 
-Built with Next.js 16, TypeScript, Tailwind CSS v4 and Framer Motion.
+Available in **English, Uzbek and Russian**. Built with Next.js 16, TypeScript, Tailwind CSS v4 and Framer Motion.
 
 ---
 
@@ -76,12 +76,25 @@ Everything a recruiter reads lives in `src/data/` and `src/constants/`. No compo
 | `src/constants/site.ts` | Name, domain, meta description, email, phone, social URLs, CV path |
 | `src/constants/navigation.ts` | Pipeline stages: order, labels, stage numbers, and **which tone each slab uses** |
 | `src/constants/assets.ts` | Image paths + the allowlist that turns placeholders into real images |
-| `src/data/profile.ts` | Hero copy, About paragraphs, facts, principles, languages |
-| `src/data/experience.ts` | Roles, achievements, metrics, stacks |
-| `src/data/projects.ts` | Full project case studies |
+| `src/i18n/dictionaries/*.ts` | **All visible text**, in en / uz / ru |
+| `src/data/profile.ts` | Social links, principle + fact ordering |
+| `src/data/experience.ts` | Companies, metric values, stacks |
+| `src/data/projects.ts` | Project structure: metrics, stacks, links, image paths |
 | `src/data/skills.ts` | Skill groups and proficiency levels (0–100) |
-| `src/data/education.ts` | Degree and certificates |
-| `src/data/stats.ts` | Headline counters and achievements |
+| `src/data/education.ts` | Institution links, certificates, language levels |
+| `src/data/stats.ts` | Headline counter values and achievements |
+
+Structure and numbers live in `src/data/`; every string a visitor reads lives in the dictionaries, keyed by the same `id`.
+
+### Languages
+
+Three locales ship in `src/i18n/dictionaries/` — `en.ts`, `uz.ts`, `ru.ts`. The English file defines the `Dictionary` type, so **a missing or renamed key in `uz.ts` or `ru.ts` is a build error**, never a silently untranslated string.
+
+- Switch with the EN / UZ / RU control in the top bar, or `⌘K → Language`.
+- The choice persists in `localStorage`; `?lang=uz` forces one, and otherwise the browser language is used.
+- `<html lang>` updates on switch, so screen readers get the right pronunciation.
+
+To edit copy, open the relevant dictionary — no component changes needed. To add a fourth language: copy `en.ts`, translate it, then register it in `src/i18n/config.ts` and `src/i18n/index.ts`.
 
 ### Replacing the placeholder images
 
@@ -89,6 +102,24 @@ Every visual slot renders a labelled placeholder that names the file it wants. T
 
 1. Drop the file in `/public` at the exact path shown on the placeholder — e.g. `public/images/profile.jpg`.
 2. Uncomment that path in `AVAILABLE_ASSETS` in `src/constants/assets.ts`.
+
+The directories already exist. The main slots:
+
+| Save as | Shows up as |
+| --- | --- |
+| `public/images/profile.jpg` | Hero portrait |
+| `public/images/projects/asint-cover.png` | ASINT card |
+| `public/images/projects/efahub-cover.png` | EfaHub card |
+| `public/images/projects/call-operator-cover.png` | AI Call Operator card |
+| `public/images/projects/dwh-cover.png` | Data Warehouse card |
+| `public/images/projects/attendance-cover.png` | Face Attendance card |
+| `public/images/diagrams/asint-architecture.png` | Featured architecture diagram |
+| `public/images/education/tsue-campus.jpg` | University photo |
+| `public/images/logos/tsue.png` | University logo |
+| `public/images/logos/link-data.png` | Link Data logo |
+| `public/images/logos/islab.png` | ISLAB logo |
+
+Tech-stack logos (AWS, GCP, Hetzner, Python, Docker …) are **not** images — they render as vector brand icons from `react-icons`, so they stay sharp at any size and cost no bandwidth.
 
 That's it. `next/image`, lazy loading and correct `sizes` are already wired. Nothing needs filling in for the site to build and deploy.
 
@@ -126,7 +157,8 @@ src/
 │   ├── sections/     # One file per page section
 │   └── ui/           # Panel, Dialog primitives
 ├── constants/        # Site config, navigation, asset allowlist
-├── data/             # All content
+├── data/             # Structural content (ids, numbers, links, stacks)
+├── i18n/             # en / uz / ru dictionaries + LanguageProvider
 ├── hooks/            # useScrollSpy, useSurfaceTone, useMediaQuery, useMounted
 ├── lib/              # cn(), motion variants, JSON-LD builder
 └── types/            # Shared types
@@ -137,6 +169,7 @@ src/
 ## Accessibility & performance
 
 - Every route is statically prerendered; the whole export is ~2 MB.
+- Three languages ship in one page — switching is instant, with no reload and no extra request.
 - `prefers-reduced-motion` is respected globally, and the scroll-jacked horizontal project deck falls back to a native swipe carousel.
 - Keyboard navigable throughout, with a skip link and a `⌘K` command palette.
 - Semantic landmarks, ARIA labels on icon-only controls, and `role="progressbar"` with real values on every meter.

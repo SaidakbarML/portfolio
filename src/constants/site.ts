@@ -45,7 +45,7 @@ export const LINKS = {
   linkedin: "https://www.linkedin.com/in/saidakbar-usmonov",
   leetcode: "https://leetcode.com/u/saidakbarml/",
   datalemur: "https://datalemur.com/profile/Saidakbar",
-  asint: "http://asint.uz",
+  asint: "https://asint.uz",
   itv: "https://itv.uz",
   university: "https://tsue.uz/en",
 } as const;
