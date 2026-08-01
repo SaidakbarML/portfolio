@@ -2,13 +2,13 @@
 
 import * as React from "react";
 import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
-import { ArrowUpRight, Download } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 import { ASSET_PATHS } from "@/constants/assets";
-import { SITE } from "@/constants/site";
 import { PROFILE, SOCIALS } from "@/data/profile";
 import { AnimatedCounter } from "@/components/animations/AnimatedCounter";
 import { TypingText } from "@/components/animations/TypingText";
+import { CvDownload } from "@/components/common/CvDownload";
 import { UiIcon } from "@/components/common/Icon";
 import { Placeholder } from "@/components/common/Placeholder";
 import { useI18n } from "@/i18n/LanguageProvider";
@@ -115,14 +115,7 @@ export function Hero() {
               transition={{ duration: 0.7, delay: DELAY + 0.7, ease: EASE_OUT_EXPO }}
               className="mt-8 flex flex-wrap items-center gap-3"
             >
-              <a
-                href={SITE.resumePath}
-                download
-                className="flex items-center gap-2.5 bg-cyan px-6 py-3.5 text-sm font-bold text-ink transition-transform hover:-translate-y-1"
-              >
-                <Download className="size-4" aria-hidden />
-                {t.hero.downloadCv}
-              </a>
+              <CvDownload />
               <a
                 href="#projects"
                 className="group flex items-center gap-2.5 border border-white/25 px-6 py-3.5 text-sm font-semibold transition-colors hover:border-cyan hover:text-cyan"

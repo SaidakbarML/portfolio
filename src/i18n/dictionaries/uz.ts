@@ -67,6 +67,7 @@ export const uz: Dictionary = {
     intro:
       "3 yil davomida modellar, ma’lumot quvurlari va bulut infratuzilmasini ishga tushiraman. ASINT’ga rahbarlik qilaman — OFB Bank va OTP Bankda ishlayotgan aktivlarni baholash platformasi.",
     downloadCv: "CV yuklab olish",
+    cvLanguage: "CV tilini tanlang",
     seeWork: "Ishlarni ko‘rish",
     scroll: "pastga",
     photoLabel: "Profil rasmi",
@@ -742,6 +743,8 @@ export const uz: Dictionary = {
       language: "Til",
     },
     downloadCv: "CV yuklab olish",
+    downloadCvEn: "CV yuklab olish — Ingliz",
+    downloadCvRu: "CV yuklab olish — Rus",
     email: "Email",
   },
 };

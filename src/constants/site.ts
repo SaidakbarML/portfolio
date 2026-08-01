@@ -26,13 +26,20 @@ export const SITE = {
     "Uzbekistan",
   ],
   twitterHandle: "@saidakbarml",
-  // Your CV lives in /public. Export a PDF over it and change this to .pdf —
-  // recruiters open PDFs in-browser, .docx downloads a file.
-  resumePath: "/Usmonov_Saidakbar_CV.docx",
+
+  /**
+   * One CV per language, served from /public. Uzbek visitors get the English
+   * document. Export PDFs over these and change the extensions — recruiters
+   * open a PDF in-browser, whereas .docx forces a download.
+   */
+  resumes: {
+    en: "/Usmonov_Saidakbar_CV_EN.docx",
+    ru: "/Usmonov_Saidakbar_CV_RU.docx",
+  },
 } as const;
 
 export const CONTACT = {
-  email: "saidakbar1523r@gmail.com",
+  email: "saidakbar20050615@gmail.com",
   phone: "+998 90 813 12 11",
   phoneHref: "tel:+998908131211",
   location: "Tashkent, Uzbekistan",

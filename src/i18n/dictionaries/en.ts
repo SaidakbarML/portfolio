@@ -70,6 +70,7 @@ export const en = {
     intro:
       "3 years shipping models, pipelines and cloud infra. I lead ASINT — an asset-valuation platform live at OFB Bank and OTP Bank.",
     downloadCv: "Download CV",
+    cvLanguage: "Choose CV language",
     seeWork: "See the work",
     scroll: "scroll",
     photoLabel: "Profile photo",
@@ -745,6 +746,8 @@ export const en = {
       language: "Language",
     },
     downloadCv: "Download CV",
+    downloadCvEn: "Download CV — English",
+    downloadCvRu: "Download CV — Russian",
     email: "Email",
   },
 };

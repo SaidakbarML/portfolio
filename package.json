@@ -9,7 +9,10 @@
     "start": "next start",
     "preview:static": "npx --yes serve@latest out",
     "lint": "eslint",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "images": "node scripts/image-manifest.mjs",
+    "prebuild": "node scripts/image-manifest.mjs",
+    "predev": "node scripts/image-manifest.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.23",

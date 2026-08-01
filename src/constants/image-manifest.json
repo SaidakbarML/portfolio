@@ -1,0 +1,38 @@
+{
+  "/images/education/tsue-campus.png": {
+    "width": 279,
+    "height": 410
+  },
+  "/images/logos/asint.png": {
+    "width": 1301,
+    "height": 355
+  },
+  "/images/logos/link-data.png": {
+    "width": 225,
+    "height": 225
+  },
+  "/images/logos/tsue.png": {
+    "width": 447,
+    "height": 447
+  },
+  "/images/projects/asint-cover.png": {
+    "width": 1280,
+    "height": 853
+  },
+  "/images/projects/attendance-cover.png": {
+    "width": 500,
+    "height": 277
+  },
+  "/images/projects/call-operator-cover.png": {
+    "width": 240,
+    "height": 240
+  },
+  "/images/projects/dwh-cover.png": {
+    "width": 259,
+    "height": 194
+  },
+  "/images/projects/efahub-cover.jpg": {
+    "height": 640,
+    "width": 640
+  }
+}

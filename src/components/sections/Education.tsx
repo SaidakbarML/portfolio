@@ -103,8 +103,7 @@ export function Education() {
                   hint={`public${item.image}`}
                   icon="graduation-cap"
                   aspect="aspect-4/3"
-                  imageClassName="object-top"
-                  sizes="(max-width: 1024px) 90vw, 34rem"
+                  sizes="(max-width: 1024px) 92vw, 560px"
                   className="rounded-none"
                 />
               </div>

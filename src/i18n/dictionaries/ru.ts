@@ -67,6 +67,7 @@ export const ru: Dictionary = {
     intro:
       "3 года запускаю модели, пайплайны и облачную инфраструктуру. Руковожу ASINT — платформой оценки активов, работающей в OFB Bank и OTP Bank.",
     downloadCv: "Скачать CV",
+    cvLanguage: "Выберите язык резюме",
     seeWork: "Смотреть работы",
     scroll: "вниз",
     photoLabel: "Фото профиля",
@@ -742,6 +743,8 @@ export const ru: Dictionary = {
       language: "Язык",
     },
     downloadCv: "Скачать CV",
+    downloadCvEn: "Скачать CV — английский",
+    downloadCvRu: "Скачать CV — русский",
     email: "Email",
   },
 };

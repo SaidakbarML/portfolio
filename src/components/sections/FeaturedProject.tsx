@@ -106,8 +106,9 @@ export function FeaturedProject({ onOpenCaseStudy }: { onOpenCaseStudy: () => vo
                 label={copy.name}
                 hint={`public${project.cover}`}
                 icon="line-chart"
-                aspect="aspect-4/3"
-                sizes="(max-width: 1024px) 90vw, 34rem"
+                fit="cover"
+                aspect="aspect-3/2"
+                sizes="(max-width: 1024px) 92vw, 560px"
                 className="rounded-none"
               />
             </motion.div>

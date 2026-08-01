@@ -65,13 +65,23 @@ export function CommandPalette({
         keywords: project.stack.join(" "),
       })),
       {
-        id: "resume",
-        label: t.palette.downloadCv,
+        id: "resume-en",
+        label: t.palette.downloadCvEn,
         group: t.palette.groups.actions,
         icon: <Download className="size-4" />,
         action: () => {
           close();
-          window.open(SITE.resumePath, "_blank", "noopener,noreferrer");
+          window.open(SITE.resumes.en, "_blank", "noopener,noreferrer");
+        },
+      },
+      {
+        id: "resume-ru",
+        label: t.palette.downloadCvRu,
+        group: t.palette.groups.actions,
+        icon: <Download className="size-4" />,
+        action: () => {
+          close();
+          window.open(SITE.resumes.ru, "_blank", "noopener,noreferrer");
         },
       },
       {

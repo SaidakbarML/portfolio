@@ -107,7 +107,7 @@ function ModalBody({
             hint={`public${project.architectureDiagram}`}
             icon="workflow"
             aspect="aspect-16/9"
-            sizes="(max-width: 1024px) 90vw, 52rem"
+            sizes="(max-width: 1024px) 92vw, 830px"
             className="rounded-none"
           />
         </Block>
@@ -163,7 +163,7 @@ function ModalBody({
                   label={`${t.projects.screenshot} ${i + 1}`}
                   hint={`public${shot}`}
                   icon="line-chart"
-                  sizes="(max-width: 640px) 90vw, 24rem"
+                  sizes="(max-width: 640px) 88vw, 400px"
                   className="rounded-none"
                 />
               ))}

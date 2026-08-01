@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowUpRight, ExternalLink } from "lucide-react";
 import { SiGithub } from "react-icons/si";
 
@@ -47,10 +46,7 @@ export function ProjectCard({
       </div>
 
       <div className="relative overflow-hidden border-b border-[color:var(--line)]">
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-        >
+        <div>
           <Placeholder
             src={project.cover}
             alt={copy.name}
@@ -59,10 +55,10 @@ export function ProjectCard({
             icon="line-chart"
             fit={project.coverFit}
             aspect="aspect-16/9"
-            sizes="(max-width: 768px) 90vw, 26rem"
+            sizes="(max-width: 640px) 86vw, 368px"
             className="rounded-none border-0"
           />
-        </motion.div>
+        </div>
       </div>
 
       <div className="flex flex-1 flex-col p-5">
