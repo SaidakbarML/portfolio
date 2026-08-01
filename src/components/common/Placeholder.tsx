@@ -102,9 +102,14 @@ export function Placeholder({
               loading={priority ? undefined : "lazy"}
               // Hard cap at the file's real pixel size: a 240px logo renders
               // at most 240px instead of being stretched into mush.
+              // min() so the native-size cap and the slot bounds both apply —
+              // a plain px value would override max-w/max-h and overflow.
               style={
                 intrinsic
-                  ? { maxWidth: intrinsic.width, maxHeight: intrinsic.height }
+                  ? {
+                      maxWidth: `min(100%, ${intrinsic.width}px)`,
+                      maxHeight: `min(100%, ${intrinsic.height}px)`,
+                    }
                   : undefined
               }
               className={cn(

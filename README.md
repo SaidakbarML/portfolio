@@ -22,6 +22,7 @@ npm run dev          # http://localhost:3000
 | `npm run preview:static` | Serve `./out` locally |
 | `npm run lint` | ESLint |
 | `npm run typecheck` | `tsc --noEmit` |
+| `npm run images` | Re-scan `/public/images` after adding files |
 
 ---
 
@@ -128,7 +129,17 @@ Every visual slot renders a labelled placeholder that names the file it wants. T
 
 The originals you dropped into the project root were moved to `design/source-images/` (still tracked in git) — `public/images/` holds the renamed copies the site actually serves.
 
-**Photo vs logo.** Set `coverFit: "contain"` on a project in `src/data/projects.ts` when the cover is a brand mark rather than a photo — it letterboxes the logo over a blurred copy of itself instead of cropping it. Photos use the default `"cover"`.
+**Nothing is cropped or upscaled.** `npm run images` (which also runs before `dev` and `build`) scans `/public/images` and writes each file's real pixel size to `src/constants/image-manifest.json`. Images are then capped at that size and centred on a blurred copy of themselves, so a 240px logo renders crisp at 240px instead of being stretched to 400px.
+
+Per-project you can set `coverFit` in `src/data/projects.ts`:
+
+| Value | Use for |
+| --- | --- |
+| `"contain"` *(default)* | Photos — whole image, never cropped |
+| `"logo"` | Brand marks — same, with padding |
+| `"cover"` | Fills the slot by cropping. Only when the source is high-res **and** its aspect matches the slot |
+
+If an image still looks soft, the source itself is too small — replace it with a larger file and re-run `npm run images`.
 
 Tech-stack logos (AWS, GCP, Hetzner, Python, Docker …) are **not** images — they render as vector brand icons from `react-icons`, so they stay sharp at any size and cost no bandwidth.
 
@@ -136,7 +147,14 @@ That's it. `next/image`, lazy loading and correct `sizes` are already wired. Not
 
 ### Your CV
 
-`public/Usmonov_Saidakbar_CV.docx` is what the **Download CV** button serves. Export a PDF over it and change `SITE.resumePath` to `.pdf` — recruiters can open a PDF in-browser, whereas `.docx` forces a download.
+Two documents ship in `/public`:
+
+- `Usmonov_Saidakbar_CV_EN.docx`
+- `Usmonov_Saidakbar_CV_RU.docx` — full Russian translation, same layout
+
+The hero button downloads the one matching the interface language (Uzbek falls back to English) and a dropdown offers the other. Both are also in the `⌘K` palette. Paths live in `SITE.resumes` in `src/constants/site.ts`.
+
+Export PDFs over these and change the extensions there — recruiters open a PDF in-browser, whereas `.docx` forces a download.
 
 ### The contact form
 
