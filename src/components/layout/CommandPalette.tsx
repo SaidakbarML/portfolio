@@ -9,6 +9,8 @@ import { CONTACT, SITE } from "@/constants/site";
 import { SOCIALS } from "@/data/profile";
 import { PROJECTS } from "@/data/projects";
 import { UiIcon } from "@/components/common/Icon";
+import { LOCALES, LOCALE_META } from "@/i18n/config";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -28,6 +30,7 @@ export function CommandPalette({
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }) {
+  const { t, setLocale } = useI18n();
   const [query, setQuery] = React.useState("");
   const [activeIndex, setActiveIndex] = React.useState(0);
   const inputRef = React.useRef<HTMLInputElement>(null);
@@ -48,23 +51,23 @@ export function CommandPalette({
     return [
       ...NAV_ITEMS.map((item) => ({
         id: `nav-${item.id}`,
-        label: item.label,
-        group: "Navigate",
+        label: t.nav[item.id],
+        group: t.palette.groups.navigate,
         icon: <ArrowRight className="size-4" />,
         action: go(item.id),
       })),
       ...PROJECTS.map((project) => ({
         id: `project-${project.id}`,
-        label: project.name,
-        group: "Projects",
+        label: t.projects.items[project.id as keyof typeof t.projects.items].name,
+        group: t.palette.groups.projects,
         icon: <span className="font-mono text-xs">{"</>"}</span>,
         action: go("projects"),
         keywords: project.stack.join(" "),
       })),
       {
         id: "resume",
-        label: "Download CV",
-        group: "Actions",
+        label: t.palette.downloadCv,
+        group: t.palette.groups.actions,
         icon: <Download className="size-4" />,
         action: () => {
           close();
@@ -73,8 +76,8 @@ export function CommandPalette({
       },
       {
         id: "email",
-        label: `Email — ${CONTACT.email}`,
-        group: "Actions",
+        label: `${t.palette.email} — ${CONTACT.email}`,
+        group: t.palette.groups.actions,
         icon: <Mail className="size-4" />,
         action: () => {
           close();
@@ -84,12 +87,22 @@ export function CommandPalette({
       ...SOCIALS.filter((s) => s.icon !== "mail").map((social) => ({
         id: `social-${social.label}`,
         label: social.label,
-        group: "Links",
+        group: t.palette.groups.links,
         icon: <UiIcon name={social.icon} className="size-4" />,
         action: openUrl(social.href),
       })),
+      ...LOCALES.map((code) => ({
+        id: `lang-${code}`,
+        label: LOCALE_META[code].label,
+        group: t.palette.groups.language,
+        icon: <span className="font-mono text-[10px]">{LOCALE_META[code].short}</span>,
+        action: () => {
+          setLocale(code);
+          close();
+        },
+      })),
     ];
-  }, [close]);
+  }, [close, t, setLocale]);
 
   const filtered = React.useMemo(() => {
     if (!query.trim()) return commands;
@@ -150,7 +163,7 @@ export function CommandPalette({
   return (
     <AnimatePresence>
       {open && (
-        <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label="Command palette">
+        <div className="fixed inset-0 z-[80]" role="dialog" aria-modal="true" aria-label={t.a11y.openPalette}>
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -174,7 +187,7 @@ export function CommandPalette({
                 ref={inputRef}
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
-                placeholder="Search sections, projects and links…"
+                placeholder={t.palette.placeholder}
                 aria-label="Search"
                 className="w-full bg-transparent text-sm text-white outline-none placeholder:text-white/35"
               />
@@ -186,7 +199,7 @@ export function CommandPalette({
             <div className="max-h-[52vh] overflow-y-auto p-2">
               {filtered.length === 0 && (
                 <p className="px-4 py-8 text-center text-sm text-white/40">
-                  No results for “{query}”
+                  {t.palette.noResults} “{query}”
                 </p>
               )}
 

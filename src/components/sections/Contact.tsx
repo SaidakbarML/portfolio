@@ -6,6 +6,7 @@ import { Check, Copy, Send } from "lucide-react";
 
 import { CONTACT } from "@/constants/site";
 import { SOCIALS } from "@/data/profile";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { Reveal } from "@/components/animations/Reveal";
 import { UiIcon } from "@/components/common/Icon";
 import { QueryHeading } from "@/components/common/QueryHeading";
@@ -17,6 +18,7 @@ type Errors = Partial<Record<keyof FormState, string>>;
 const EMPTY: FormState = { name: "", email: "", subject: "", message: "" };
 
 export function Contact() {
+  const { t } = useI18n();
   const [form, setForm] = React.useState<FormState>(EMPTY);
   const [errors, setErrors] = React.useState<Errors>({});
   const [sent, setSent] = React.useState(false);
@@ -24,10 +26,10 @@ export function Contact() {
 
   function validate(values: FormState): Errors {
     const next: Errors = {};
-    if (!values.name.trim()) next.name = "Required.";
-    if (!values.email.trim()) next.email = "Required.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) next.email = "Invalid email.";
-    if (!values.message.trim()) next.message = "Required.";
+    if (!values.name.trim()) next.name = t.contact.form.errors.required;
+    if (!values.email.trim()) next.email = t.contact.form.errors.required;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) next.email = t.contact.form.errors.invalidEmail;
+    if (!values.message.trim()) next.message = t.contact.form.errors.required;
     return next;
   }
 
@@ -38,7 +40,9 @@ export function Contact() {
     if (Object.keys(nextErrors).length > 0) return;
 
     // No backend needed: compose the message and hand off to the mail client.
-    const subject = encodeURIComponent(form.subject || `Portfolio enquiry from ${form.name}`);
+    const subject = encodeURIComponent(
+      form.subject || `${t.contact.form.defaultSubject} ${form.name}`,
+    );
     const body = encodeURIComponent(`${form.message}\n\n—\n${form.name}\n${form.email}`);
     window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`;
 
@@ -63,19 +67,19 @@ export function Contact() {
   }
 
   return (
-    <div className="shell py-24 sm:py-32 xl:pl-[calc(var(--rail-w)-4rem)]">
+    <div className="shell py-16 sm:py-20 xl:pl-[calc(var(--rail-w)-4rem)]">
       <QueryHeading
-        query="INSERT INTO inbox (message) VALUES (…)"
-        meta="awaiting input"
-        title="Let's talk about what"
-        accentWord="you're building."
-        lede={CONTACT.availability}
+        query={t.contact.query}
+        meta={t.contact.meta}
+        title={t.contact.title}
+        accentWord={t.contact.accent}
+        lede={t.contact.lede}
       />
 
       <div className="mt-14 grid gap-px border border-[color:var(--line)] bg-[color:var(--line)] lg:grid-cols-[0.8fr_1.2fr]">
         {/* Details */}
         <Reveal direction="none" className="bg-[color:var(--surface)] p-7 sm:p-9">
-          <p className="mono-label">direct</p>
+          <p className="mono-label">{t.contact.directLabel}</p>
 
           <div className="mt-4 flex items-center gap-2 border border-[color:var(--line)] p-2 pl-4">
             <a
@@ -87,7 +91,7 @@ export function Contact() {
             <button
               type="button"
               onClick={copyEmail}
-              aria-label="Copy email address"
+              aria-label={t.contact.copyEmail}
               className="flex size-9 shrink-0 items-center justify-center border border-[color:var(--line)] transition-colors hover:border-[color:var(--accent)]"
             >
               <AnimatePresence mode="wait" initial={false}>
@@ -110,9 +114,9 @@ export function Contact() {
 
           <dl className="mt-8 border-t border-[color:var(--line)]">
             {[
-              { label: "Phone", value: CONTACT.phone, href: CONTACT.phoneHref },
-              { label: "Location", value: CONTACT.location },
-              { label: "Timezone", value: CONTACT.timezone },
+              { label: t.contact.phone, value: CONTACT.phone, href: CONTACT.phoneHref },
+              { label: t.contact.location, value: t.contact.locationValue },
+              { label: t.contact.timezone, value: CONTACT.timezone },
             ].map((row) => (
               <div
                 key={row.label}
@@ -135,7 +139,7 @@ export function Contact() {
             ))}
           </dl>
 
-          <p className="mono-label mt-8">profiles</p>
+          <p className="mono-label mt-8">{t.contact.profilesLabel}</p>
           <ul className="mt-3 flex flex-col">
             {SOCIALS.map((social) => (
               <li key={social.label}>
@@ -162,42 +166,43 @@ export function Contact() {
             <div className="grid gap-6 sm:grid-cols-2">
               <Field
                 id="name"
-                label="Name"
+                label={t.contact.form.name}
                 value={form.name}
                 error={errors.name}
                 onChange={(v) => update("name", v)}
-                placeholder="Jane Doe"
+                placeholder={t.contact.form.namePlaceholder}
                 autoComplete="name"
               />
               <Field
                 id="email"
-                label="Email"
+                label={t.contact.form.email}
                 type="email"
                 value={form.email}
                 error={errors.email}
                 onChange={(v) => update("email", v)}
-                placeholder="jane@company.com"
+                placeholder={t.contact.form.emailPlaceholder}
                 autoComplete="email"
               />
             </div>
 
             <Field
               id="subject"
-              label="Subject"
+              label={t.contact.form.subject}
               optional
+              optionalLabel={t.contact.form.optional}
               value={form.subject}
               onChange={(v) => update("subject", v)}
-              placeholder="ML Engineer role at …"
+              placeholder={t.contact.form.subjectPlaceholder}
             />
 
             <Field
               id="message"
-              label="Message"
+              label={t.contact.form.message}
               multiline
               value={form.message}
               error={errors.message}
               onChange={(v) => update("message", v)}
-              placeholder="Tell me about the team and the problem."
+              placeholder={t.contact.form.messagePlaceholder}
             />
 
             <div className="mt-auto flex flex-wrap items-center gap-4 pt-2">
@@ -207,7 +212,7 @@ export function Contact() {
                 style={{ background: "var(--accent)", color: "var(--on-accent)" }}
               >
                 <Send className="size-4" aria-hidden />
-                Send message
+                {t.contact.form.send}
               </button>
 
               <AnimatePresence>
@@ -219,14 +224,14 @@ export function Contact() {
                     role="status"
                     className="text-[13px] text-[color:var(--accent)]"
                   >
-                    Mail client opened — hit send.
+                    {t.contact.form.sent}
                   </motion.p>
                 )}
               </AnimatePresence>
             </div>
 
             <p className="text-[11px] leading-relaxed text-[color:var(--fg-faint)]">
-              Opens your email client with the message pre-filled. No server, no tracking.
+              {t.contact.form.disclaimer}
             </p>
           </form>
         </Reveal>
@@ -245,6 +250,7 @@ function Field({
   type = "text",
   multiline = false,
   optional = false,
+  optionalLabel,
   autoComplete,
 }: {
   id: string;
@@ -256,6 +262,7 @@ function Field({
   type?: string;
   multiline?: boolean;
   optional?: boolean;
+  optionalLabel?: string;
   autoComplete?: string;
 }) {
   const base = cn(
@@ -269,7 +276,7 @@ function Field({
     <div className={multiline ? "flex flex-1 flex-col" : undefined}>
       <label htmlFor={id} className="mono-label">
         {label}
-        {optional && <span className="ml-1.5 normal-case opacity-60">(optional)</span>}
+        {optional && <span className="ml-1.5 normal-case opacity-60">{optionalLabel}</span>}
       </label>
 
       {multiline ? (

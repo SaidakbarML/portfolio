@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 import { CONTACT, SITE } from "@/constants/site";
-import { PROFILE } from "@/data/profile";
+import { en } from "@/i18n/dictionaries/en";
 
 export const dynamic = "force-static";
 export const alt = `${SITE.name} — ${SITE.role}`;
@@ -71,7 +71,7 @@ export default function OpenGraphImage() {
             <span style={{ color: "#e8eaf4", fontSize: 26, fontWeight: 600 }}>
               {SITE.name}
             </span>
-            <span style={{ color: "#7c84a5", fontSize: 19 }}>{PROFILE.headline}</span>
+            <span style={{ color: "#7c84a5", fontSize: 19 }}>{en.hero.headline}</span>
           </div>
         </div>
 

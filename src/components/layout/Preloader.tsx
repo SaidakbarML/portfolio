@@ -4,17 +4,13 @@ import * as React from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 import { PROFILE } from "@/data/profile";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { EASE_OUT_EXPO } from "@/lib/motion";
-
-const BOOT_LINES = [
-  "connecting to pipeline…",
-  "loading stages 00–07",
-  "ready",
-];
 
 /** Brief boot sequence that lifts once the page is interactive. */
 export function Preloader() {
   const [visible, setVisible] = React.useState(true);
+  const { t } = useI18n();
   const reduceMotion = useReducedMotion();
 
   React.useEffect(() => {
@@ -44,12 +40,12 @@ export function Preloader() {
               SU
             </span>
             <span className="font-mono text-[10px] uppercase tracking-[0.24em] text-white/40">
-              {PROFILE.headline}
+              {t.hero.headline}
             </span>
           </div>
 
           <div className="flex flex-col gap-2">
-            {BOOT_LINES.map((line, i) => (
+            {t.preloader.lines.map((line, i) => (
               <motion.p
                 key={line}
                 initial={{ opacity: 0, x: -10 }}

@@ -4,43 +4,52 @@ import { motion } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 import { CERTIFICATES } from "@/data/education";
+import { LogoPlaceholder } from "@/components/common/Placeholder";
 import { QueryHeading } from "@/components/common/QueryHeading";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 
 export function Certificates() {
+  const { t } = useI18n();
+  const items = t.certificates.items as Record<string, { name: string; skills: string[] }>;
+
   return (
-    <div className="shell py-24 sm:py-32 xl:pl-[calc(var(--rail-w)-4rem)]">
+    <div className="shell py-16 sm:py-20 xl:pl-[calc(var(--rail-w)-4rem)]">
       <QueryHeading
-        query="SELECT name, issuer FROM certificates"
-        meta={`${CERTIFICATES.length} rows · 3ms`}
-        title="Training, applied"
-        accentWord="immediately."
+        query={t.certificates.query}
+        meta={`${CERTIFICATES.length} ${t.certificates.meta}`}
+        title={t.certificates.title}
+        accentWord={t.certificates.accent}
       />
 
-      <ul className="mt-14 border-t border-[color:var(--line)]">
+      <ul className="mt-10 border-t border-[color:var(--line)]">
         {CERTIFICATES.map((certificate, index) => {
+          const copy = items[certificate.id];
           const Row = certificate.href ? motion.a : motion.div;
 
           return (
             <motion.li
               key={certificate.id}
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.4 }}
-              transition={{ duration: 0.55, delay: index * 0.07, ease: EASE_OUT_EXPO }}
+              transition={{ duration: 0.5, delay: index * 0.06, ease: EASE_OUT_EXPO }}
             >
               <Row
                 {...(certificate.href
                   ? { href: certificate.href, target: "_blank", rel: "noopener noreferrer" }
                   : {})}
-                className="group grid grid-cols-1 items-center gap-x-6 gap-y-3 border-b border-[color:var(--line)] py-7 transition-colors duration-300 hover:bg-[color:var(--surface-2)] sm:grid-cols-[3rem_minmax(0,1.4fr)_minmax(0,1fr)_auto] sm:px-4"
+                className="group grid grid-cols-1 items-center gap-x-5 gap-y-3 border-b border-[color:var(--line)] py-5 transition-colors duration-300 hover:bg-[color:var(--surface-2)] sm:grid-cols-[auto_minmax(0,1.4fr)_minmax(0,1fr)_auto] sm:px-3"
               >
-                <span className="font-mono text-[11px] text-[color:var(--accent)]">
-                  {String(index + 1).padStart(2, "0")}
-                </span>
+                <LogoPlaceholder
+                  src={certificate.logo}
+                  alt={certificate.issuer}
+                  fallback={certificate.issuer.slice(0, 2).toUpperCase()}
+                  className="size-11"
+                />
 
-                <h3 className="text-xl font-semibold leading-tight tracking-tight transition-transform duration-300 group-hover:translate-x-1 sm:text-2xl">
-                  {certificate.name}
+                <h3 className="text-lg font-semibold leading-tight tracking-tight transition-transform duration-300 group-hover:translate-x-1 sm:text-xl">
+                  {copy?.name}
                 </h3>
 
                 <div className="flex flex-col gap-2">
@@ -48,7 +57,7 @@ export function Certificates() {
                     {certificate.issuer}
                   </span>
                   <span className="flex flex-wrap gap-1.5">
-                    {certificate.skills.map((skill) => (
+                    {copy?.skills.map((skill) => (
                       <span
                         key={skill}
                         className="border border-[color:var(--line)] px-2 py-0.5 text-[11px] text-[color:var(--fg-muted)]"

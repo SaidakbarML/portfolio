@@ -9,6 +9,7 @@ import { PipelineRail } from "@/components/layout/PipelineRail";
 import { Preloader } from "@/components/layout/Preloader";
 import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { TopBar } from "@/components/layout/TopBar";
+import { LanguageProvider } from "@/i18n/LanguageProvider";
 
 import "./globals.css";
 
@@ -84,8 +85,9 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(buildStructuredData()) }}
         />
 
-        <Preloader />
-        <ScrollProgress />
+        <LanguageProvider>
+          <Preloader />
+          <ScrollProgress />
 
         <a
           href="#main"
@@ -101,8 +103,9 @@ export default function RootLayout({
           {children}
         </main>
 
-        <Footer />
-        <BackToTop />
+          <Footer />
+          <BackToTop />
+        </LanguageProvider>
       </body>
     </html>
   );

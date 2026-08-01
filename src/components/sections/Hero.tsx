@@ -13,15 +13,16 @@ import { UiIcon } from "@/components/common/Icon";
 import { Placeholder } from "@/components/common/Placeholder";
 import { useI18n } from "@/i18n/LanguageProvider";
 import { EASE_OUT_EXPO } from "@/lib/motion";
+import type { Metric } from "@/types";
 
 const DELAY = 0.9;
 
-const HERO_STATS = [
+const HERO_STATS: Metric[] = [
   { key: "years", value: 3, suffix: "+" },
   { key: "records", value: 5.3, suffix: "M", decimals: 1 },
   { key: "orgs", value: 3 },
   { key: "banks", value: 2 },
-] as const;
+];
 
 export function Hero() {
   const ref = React.useRef<HTMLDivElement>(null);
@@ -202,7 +203,7 @@ export function Hero() {
                 <AnimatedCounter
                   value={stat.value}
                   suffix={stat.suffix}
-                  decimals={"decimals" in stat ? stat.decimals : 0}
+                  decimals={stat.decimals}
                 />
               </dd>
               <dt className="mono-label mt-1.5 !text-white/40">

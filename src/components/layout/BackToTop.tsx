@@ -4,9 +4,11 @@ import { AnimatePresence, motion, useMotionValueEvent, useScroll } from "framer-
 import { ArrowUp } from "lucide-react";
 import { useState } from "react";
 
+import { useI18n } from "@/i18n/LanguageProvider";
 import { springSnappy } from "@/lib/motion";
 
 export function BackToTop() {
+  const { t } = useI18n();
   const { scrollY } = useScroll();
   const [visible, setVisible] = useState(false);
 
@@ -19,7 +21,7 @@ export function BackToTop() {
       {visible && (
         <motion.button
           type="button"
-          aria-label="Back to top"
+          aria-label={t.a11y.backToTop}
           onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
           initial={{ opacity: 0, scale: 0.6, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}

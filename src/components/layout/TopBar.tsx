@@ -9,6 +9,8 @@ import { SITE } from "@/constants/site";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useSurfaceTone } from "@/hooks/useSurfaceTone";
 import { CommandPalette } from "@/components/layout/CommandPalette";
+import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { EASE_OUT_EXPO } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +24,7 @@ export function TopBar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
   const [paletteOpen, setPaletteOpen] = React.useState(false);
   const activeId = useScrollSpy(SECTION_IDS);
+  const { t } = useI18n();
 
   const active = NAV_ITEMS.find((item) => item.id === activeId) ?? NAV_ITEMS[0];
   const onPaper = useSurfaceTone(28) === "paper";
@@ -58,7 +61,7 @@ export function TopBar() {
         )}
       >
         <div className="flex h-14 items-center justify-between gap-4 px-5 sm:px-8">
-          <a href="#home" className="flex items-center gap-3" aria-label={`${SITE.name} — home`}>
+          <a href="#home" className="flex items-center gap-3" aria-label={`${SITE.name} — ${t.a11y.home}`}>
             <span
               className={cn(
                 "flex size-7 items-center justify-center rounded-[3px] font-mono text-[11px] font-bold transition-colors duration-500",
@@ -89,13 +92,13 @@ export function TopBar() {
                 <span className="absolute inline-flex size-full animate-ping rounded-full bg-lime opacity-70" />
                 <span className="relative inline-flex size-1.5 rounded-full bg-lime" />
               </span>
-              open to work
+              {t.topbar.openToWork}
             </span>
 
             <button
               type="button"
               onClick={() => setPaletteOpen(true)}
-              aria-label="Open command palette"
+              aria-label={t.a11y.openPalette}
               className={cn(
                 "hidden items-center gap-1.5 rounded-[4px] border px-2.5 py-1.5 font-mono text-[11px] transition-colors md:flex",
                 onPaper
@@ -106,6 +109,8 @@ export function TopBar() {
               <Command className="size-3" />K
             </button>
 
+            <LanguageSwitcher onPaper={onPaper} />
+
             <a
               href="#contact"
               className={cn(
@@ -113,13 +118,13 @@ export function TopBar() {
                 onPaper ? "bg-ink text-paper" : "bg-cyan text-ink",
               )}
             >
-              Hire me
+              {t.topbar.hireMe}
             </a>
 
             <button
               type="button"
               onClick={() => setMobileOpen((open) => !open)}
-              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-label={mobileOpen ? t.a11y.closeMenu : t.a11y.openMenu}
               aria-expanded={mobileOpen}
               className={cn(
                 "flex size-9 items-center justify-center rounded-[4px] border xl:hidden",
@@ -175,7 +180,7 @@ export function TopBar() {
                         activeId === item.id ? "text-cyan" : "text-white/70",
                       )}
                     >
-                      {item.label}
+                      {t.nav[item.id]}
                     </span>
                     <span className="ml-auto font-mono text-[10px] uppercase tracking-widest text-white/30">
                       {item.task}

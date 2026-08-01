@@ -7,6 +7,7 @@ import { NAV_ITEMS } from "@/constants/navigation";
 import { CONTACT, SITE } from "@/constants/site";
 import { SOCIALS } from "@/data/profile";
 import { UiIcon } from "@/components/common/Icon";
+import { useI18n } from "@/i18n/LanguageProvider";
 
 const BUILT_WITH = [
   { name: "Next.js", Icon: SiNextdotjs },
@@ -16,9 +17,11 @@ const BUILT_WITH = [
 ];
 
 export function Footer() {
+  const { t } = useI18n();
+
   return (
     <footer data-tone="ink" className="slab-ink relative z-10 border-t border-white/12">
-      <div className="shell py-14 xl:pl-[calc(var(--rail-w)-4rem)]">
+      <div className="shell py-10 xl:pl-[calc(var(--rail-w)-4rem)]">
         <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
           <div className="max-w-sm">
             <a href="#home" className="flex items-center gap-3">
@@ -28,7 +31,7 @@ export function Footer() {
               <span className="text-[15px] font-semibold">{SITE.name}</span>
             </a>
             <p className="mt-4 text-[14px] leading-relaxed text-white/50">
-              {SITE.role} building production ML systems and the infrastructure under them.
+              {t.footer.blurb}
             </p>
             <p className="mono-label mt-4">
               {CONTACT.location} · {CONTACT.timezone}
@@ -43,13 +46,13 @@ export function Footer() {
                 className="group flex items-baseline gap-2.5 py-1 text-[14px] text-white/50 transition-colors hover:text-white"
               >
                 <span className="font-mono text-[10px] text-white/25">{item.stage}</span>
-                {item.label}
+                {t.nav[item.id]}
               </a>
             ))}
           </nav>
 
           <div>
-            <p className="mono-label">elsewhere</p>
+            <p className="mono-label">{t.footer.elsewhere}</p>
             <ul className="mt-3 flex flex-col">
               {SOCIALS.map((social) => (
                 <li key={social.label}>
@@ -75,7 +78,7 @@ export function Footer() {
           </p>
 
           <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
-            <span className="mono-label">built with</span>
+            <span className="mono-label">{t.footer.builtWith}</span>
             {BUILT_WITH.map(({ name, Icon }) => (
               <span
                 key={name}

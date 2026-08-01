@@ -5,6 +5,7 @@ import { motion, useScroll, useSpring } from "framer-motion";
 import { NAV_ITEMS } from "@/constants/navigation";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
 import { useSurfaceTone } from "@/hooks/useSurfaceTone";
+import { useI18n } from "@/i18n/LanguageProvider";
 import { cn } from "@/lib/utils";
 
 const SECTION_IDS = NAV_ITEMS.map((item) => item.id);
@@ -16,6 +17,7 @@ const SECTION_IDS = NAV_ITEMS.map((item) => item.id);
  */
 export function PipelineRail() {
   const activeId = useScrollSpy(SECTION_IDS);
+  const { t } = useI18n();
   const { scrollYProgress } = useScroll();
   const fill = useSpring(scrollYProgress, {
     stiffness: 120,
@@ -28,7 +30,7 @@ export function PipelineRail() {
 
   return (
     <nav
-      aria-label="Pipeline stages"
+      aria-label={t.a11y.pipelineStages}
       className="pointer-events-none fixed left-0 top-0 z-40 hidden h-dvh w-[var(--rail-w)] flex-col justify-center pl-8 xl:flex"
     >
       <div className="pointer-events-auto relative">
@@ -116,7 +118,7 @@ export function PipelineRail() {
                             : "text-white/45 group-hover:text-white/85",
                       )}
                     >
-                      {item.label}
+                      {t.nav[item.id]}
                     </span>
                   </span>
                 </a>
