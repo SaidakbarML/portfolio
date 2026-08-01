@@ -1,5 +1,3 @@
-import type { LucideIcon } from "lucide-react";
-
 export type SectionId =
   | "home"
   | "about"
@@ -23,91 +21,63 @@ export interface NavItem {
 }
 
 export interface SocialLink {
+  /** Brand names — not translated. */
   label: string;
   href: string;
   handle: string;
   icon: string;
 }
 
+/** Values are language-independent; `key` resolves the label in the dictionary. */
 export interface Metric {
-  label: string;
+  key: string;
   value: number;
   suffix?: string;
   prefix?: string;
   decimals?: number;
-  description?: string;
-}
-
-export interface SkillCategory {
-  id: string;
-  title: string;
-  icon: string;
-  accent: "blue" | "purple" | "cyan";
-  blurb: string;
-  skills: Skill[];
 }
 
 export interface Skill {
   name: string;
   level: number;
-  note?: string;
 }
 
-export interface ExperienceRole {
-  title: string;
-  period: string;
+export interface SkillCategory {
+  id: string;
+  icon: string;
+  accent: Accent;
+  skills: Skill[];
 }
+
+export type Accent = "blue" | "purple" | "cyan";
 
 export interface Experience {
   id: string;
   company: string;
-  companyUrl?: string;
   logo: string;
-  role: string;
-  employmentType: string;
-  period: string;
-  location: string;
-  summary: string;
-  progression?: ExperienceRole[];
-  achievements: string[];
   metrics: Metric[];
   stack: string[];
+  progressionKeys: string[];
 }
 
 export interface ProjectLink {
-  type: "github" | "demo" | "live" | "caseStudy" | "video";
+  type: "github" | "demo" | "live" | "caseStudy";
+  /** Resolves the button label in the dictionary. */
+  key: string;
   href: string;
-  label: string;
-}
-
-export interface ProjectSection {
-  heading: string;
-  body: string;
 }
 
 export interface Project {
   id: string;
   slug: string;
-  name: string;
-  tagline: string;
-  category: string;
   year: string;
   status: "Production" | "Open source" | "Archived" | "Deployed";
   featured?: boolean;
-  accent: "blue" | "purple" | "cyan";
+  accent: Accent;
   cover: string;
   screenshots: string[];
   architectureDiagram: string;
-  summary: string;
-  problem: string;
-  solution: string;
-  architecture: string;
-  impact: string;
-  scalability: string;
-  deployment: string;
-  challenges: ProjectSection[];
-  lessons: string[];
-  future: string[];
+  metricKeys: string[];
   metrics: Metric[];
   stack: string[];
   links: ProjectLink[];
@@ -115,38 +85,26 @@ export interface Project {
 
 export interface EducationItem {
   id: string;
-  institution: string;
   institutionUrl?: string;
   logo: string;
-  credential: string;
-  field: string;
-  period: string;
-  detail: string;
-  highlights: string[];
+  image?: string;
 }
 
 export interface Certificate {
   id: string;
-  name: string;
   issuer: string;
   href?: string;
   logo: string;
-  skills: string[];
 }
 
 export interface Achievement {
   id: string;
-  title: string;
-  description: string;
   icon: string;
-  accent: "blue" | "purple" | "cyan";
-  metric?: Metric;
+  accent: Accent;
+  metric: Metric;
 }
 
-export interface Language {
-  name: string;
-  level: string;
+export interface LanguageSkill {
+  key: string;
   proficiency: number;
 }
-
-export type IconMap = Record<string, LucideIcon>;

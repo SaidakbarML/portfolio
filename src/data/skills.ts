@@ -1,55 +1,48 @@
 import type { SkillCategory } from "@/types";
 
 /**
- * Levels are a self-assessment on a 0–100 scale and are used only to drive the
- * progress bars. They intentionally reflect depth of *production* use.
+ * Levels are a self-assessment (0–100) driving the density meters, weighted
+ * toward depth of *production* use. Titles, blurbs and notes live in the
+ * dictionaries, keyed by category `id` and skill `name`.
  */
 export const SKILL_CATEGORIES: SkillCategory[] = [
   {
     id: "programming",
-    title: "Programming",
     icon: "code",
     accent: "blue",
-    blurb: "Daily drivers for modelling, pipelines and glue.",
     skills: [
-      { name: "Python", level: 95, note: "Primary language" },
-      { name: "SQL", level: 92, note: "Analytics + warehouse modelling" },
-      { name: "Bash", level: 75, note: "Server automation" },
-      { name: "R", level: 65, note: "Statistical analysis" },
+      { name: "Python", level: 95 },
+      { name: "SQL", level: 92 },
+      { name: "Bash", level: 75 },
+      { name: "R", level: 65 },
     ],
   },
   {
     id: "machine-learning",
-    title: "Machine Learning",
     icon: "brain",
     accent: "purple",
-    blurb: "Regression and valuation models running in production.",
     skills: [
       { name: "Scikit-learn", level: 90 },
       { name: "Feature Engineering", level: 88 },
-      { name: "BigQuery ML", level: 82, note: "In-warehouse training" },
+      { name: "BigQuery ML", level: 82 },
       { name: "Model Evaluation", level: 85 },
     ],
   },
   {
     id: "deep-learning",
-    title: "Deep Learning",
     icon: "network",
     accent: "cyan",
-    blurb: "Applied neural networks for vision and embeddings.",
     skills: [
-      { name: "TensorFlow", level: 68, note: "Working knowledge" },
-      { name: "PyTorch", level: 62, note: "Working knowledge" },
+      { name: "TensorFlow", level: 68 },
+      { name: "PyTorch", level: 62 },
       { name: "Embeddings & Vector Search", level: 78 },
       { name: "LLM Integration", level: 70 },
     ],
   },
   {
     id: "computer-vision",
-    title: "Computer Vision",
     icon: "scan-eye",
     accent: "blue",
-    blurb: "Face recognition and image pipelines shipped to users.",
     skills: [
       { name: "OpenCV", level: 82 },
       { name: "Face Recognition", level: 85 },
@@ -59,12 +52,10 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
   {
     id: "data-engineering",
-    title: "Data Engineering",
     icon: "database-zap",
     accent: "cyan",
-    blurb: "Millions of records, many sources, one modelled layer.",
     skills: [
-      { name: "Apache Airflow", level: 90, note: "Orchestration at scale" },
+      { name: "Apache Airflow", level: 90 },
       { name: "ETL / ELT", level: 92 },
       { name: "Data Warehousing", level: 88 },
       { name: "Data Modeling", level: 85 },
@@ -73,23 +64,19 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
   {
     id: "cloud",
-    title: "Cloud & Deployment",
     icon: "cloud",
     accent: "purple",
-    blurb: "From a trained artifact to a public endpoint.",
     skills: [
       { name: "AWS", level: 80 },
       { name: "GCP", level: 82 },
       { name: "Nginx", level: 78 },
-      { name: "VPS Administration", level: 85, note: "Hetzner · eCompute" },
+      { name: "VPS Administration", level: 85 },
     ],
   },
   {
     id: "databases",
-    title: "Databases",
     icon: "database",
     accent: "blue",
-    blurb: "Transactional stores and analytical warehouses.",
     skills: [
       { name: "PostgreSQL", level: 88 },
       { name: "BigQuery", level: 88 },
@@ -99,12 +86,10 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
   {
     id: "mlops",
-    title: "MLOps & Backend",
     icon: "settings-2",
     accent: "purple",
-    blurb: "Serving, containerising and scheduling models.",
     skills: [
-      { name: "FastAPI", level: 90, note: "Model serving APIs" },
+      { name: "FastAPI", level: 90 },
       { name: "Docker", level: 85 },
       { name: "Git", level: 90 },
       { name: "Scheduled Retraining", level: 84 },
@@ -113,32 +98,28 @@ export const SKILL_CATEGORIES: SkillCategory[] = [
   },
   {
     id: "visualization",
-    title: "Visualization",
     icon: "bar-chart-3",
     accent: "cyan",
-    blurb: "Making model output legible to non-technical stakeholders.",
     skills: [
-      { name: "Power BI", level: 88, note: "1M+ record dashboards" },
-      { name: "Plotly / Dash", level: 82 },
-      { name: "MS Excel", level: 85 },
+      { name: "Power BI", level: 88 },
+      { name: "Plotly", level: 82 },
+      { name: "Dash", level: 80 },
     ],
   },
   {
     id: "tools",
-    title: "Tools & Practices",
     icon: "wrench",
     accent: "blue",
-    blurb: "How the work actually gets delivered.",
     skills: [
       { name: "Linux", level: 84 },
       { name: "Code Review", level: 80 },
-      { name: "Technical Mentoring", level: 85, note: "20+ staff trained" },
+      { name: "Technical Mentoring", level: 85 },
       { name: "Agile Delivery", level: 78 },
     ],
   },
 ];
 
-/** Flat list used by the interactive marquee / badge cloud. */
+/** Flat list for the ticker. */
 export const TECH_BADGES: string[] = [
   "Python",
   "SQL",
@@ -150,20 +131,16 @@ export const TECH_BADGES: string[] = [
   "Airflow",
   "BigQuery",
   "PostgreSQL",
-  "MySQL",
   "Docker",
   "AWS",
   "GCP",
+  "Hetzner",
   "Nginx",
   "Power BI",
-  "Dash",
   "Plotly",
   "Git",
   "Bash",
-  "R",
+  "Linux",
   "Vector DB",
   "ETL / ELT",
-  "Hetzner",
-  "Linux",
-  "LLMs",
 ];

@@ -2,7 +2,7 @@ import { CONTACT, LINKS, SITE } from "@/constants/site";
 import { PROJECTS } from "@/data/projects";
 import { SKILL_CATEGORIES } from "@/data/skills";
 import { EXPERIENCES } from "@/data/experience";
-import { EDUCATION } from "@/data/education";
+import { en } from "@/i18n/dictionaries/en";
 
 /** JSON-LD graph: Person + WebSite + the portfolio's creative works. */
 export function buildStructuredData() {
@@ -32,11 +32,13 @@ export function buildStructuredData() {
       "@type": "Organization",
       name: experience.company,
     })),
-    alumniOf: EDUCATION.map((item) => ({
-      "@type": "CollegeOrUniversity",
-      name: item.institution,
-      url: item.institutionUrl,
-    })),
+    alumniOf: [
+      {
+        "@type": "CollegeOrUniversity",
+        name: en.education.items.tsue.institution,
+        url: LINKS.university,
+      },
+    ],
   };
 
   const website = {
@@ -45,21 +47,24 @@ export function buildStructuredData() {
     url: SITE.url,
     name: SITE.title,
     description: SITE.description,
-    inLanguage: "en",
+    inLanguage: ["en", "uz", "ru"],
     publisher: { "@id": `${SITE.url}/#person` },
   };
 
-  const works = PROJECTS.map((project) => ({
-    "@type": "CreativeWork",
-    "@id": `${SITE.url}/projects/${project.slug}#work`,
-    name: project.name,
-    headline: project.tagline,
-    description: project.summary,
-    url: `${SITE.url}/projects/${project.slug}`,
-    dateCreated: project.year,
-    creator: { "@id": `${SITE.url}/#person` },
-    keywords: project.stack.join(", "),
-  }));
+  const works = PROJECTS.map((project) => {
+    const copy = en.projects.items[project.id as keyof typeof en.projects.items];
+    return {
+      "@type": "CreativeWork",
+      "@id": `${SITE.url}/projects/${project.slug}#work`,
+      name: copy?.name ?? project.slug,
+      headline: copy?.tagline,
+      description: copy?.summary,
+      url: `${SITE.url}/projects/${project.slug}`,
+      dateCreated: project.year,
+      creator: { "@id": `${SITE.url}/#person` },
+      keywords: project.stack.join(", "),
+    };
+  });
 
   return {
     "@context": "https://schema.org",

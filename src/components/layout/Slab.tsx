@@ -3,41 +3,31 @@
 import * as React from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 
+import { useI18n } from "@/i18n/LanguageProvider";
 import { cn } from "@/lib/utils";
-import type { SlabTone } from "@/types";
+import type { SectionId, SlabTone } from "@/types";
 
 interface SlabProps {
-  id?: string;
+  id: SectionId;
   tone: SlabTone;
   stage?: string;
   task?: string;
-  label?: string;
-  ariaLabel?: string;
   className?: string;
   children: React.ReactNode;
 }
 
 /**
- * One pipeline stage. Owns its own surface tokens, so every child styles
- * itself from --fg / --line / --accent and inverts automatically.
+ * One pipeline stage. Owns its surface tokens, so every child styles itself
+ * from --fg / --line / --accent and inverts automatically.
  */
-export function Slab({
-  id,
-  tone,
-  stage,
-  task,
-  label,
-  ariaLabel,
-  className,
-  children,
-}: SlabProps) {
+export function Slab({ id, tone, stage, task, className, children }: SlabProps) {
   const ref = React.useRef<HTMLElement>(null);
+  const { t } = useI18n();
+
   const { scrollYProgress } = useScroll({
     target: ref,
     offset: ["start end", "end start"],
   });
-
-  // The stage header bar tracks scroll progress through the slab.
   const progress = useTransform(scrollYProgress, [0.1, 0.9], [0, 1]);
 
   return (
@@ -45,16 +35,16 @@ export function Slab({
       ref={ref}
       id={id}
       data-tone={tone}
-      aria-label={ariaLabel}
+      aria-label={t.nav[id]}
       className={cn(
-        "relative scroll-mt-20",
+        "relative scroll-mt-16",
         tone === "ink" ? "slab-ink" : "slab-paper",
         className,
       )}
     >
       {stage && (
         <header className="relative z-10 border-b border-[color:var(--line)]">
-          <div className="shell flex items-center justify-between gap-4 py-3">
+          <div className="shell flex items-center justify-between gap-4 py-2.5">
             <div className="flex items-center gap-3 sm:gap-5">
               <span
                 className="flex size-6 items-center justify-center rounded-[3px] text-[10px] font-bold"
@@ -62,9 +52,9 @@ export function Slab({
               >
                 {stage}
               </span>
-              <span className="mono-label">{label}</span>
+              <span className="mono-label">{t.nav[id]}</span>
               {task && (
-                <span className="mono-label hidden sm:inline opacity-60">
+                <span className="mono-label hidden opacity-60 sm:inline">
                   task&nbsp;=&nbsp;{task}
                 </span>
               )}
