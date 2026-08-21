@@ -3,11 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 
 import { SITE } from "@/constants/site";
 import { buildStructuredData } from "@/lib/seo";
-import { BackToTop } from "@/components/layout/BackToTop";
 import { Footer } from "@/components/layout/Footer";
-import { PipelineRail } from "@/components/layout/PipelineRail";
-import { Preloader } from "@/components/layout/Preloader";
-import { ScrollProgress } from "@/components/layout/ScrollProgress";
 import { TopBar } from "@/components/layout/TopBar";
 import { LanguageProvider } from "@/i18n/LanguageProvider";
 
@@ -67,7 +63,7 @@ export const metadata: Metadata = {
 };
 
 export const viewport: Viewport = {
-  themeColor: "#04040a",
+  themeColor: "#08080d",
   colorScheme: "dark",
   width: "device-width",
   initialScale: 1,
@@ -81,30 +77,24 @@ export default function RootLayout({
       <body className="relative min-h-dvh">
         <script
           type="application/ld+json"
-          // Structured data is static, generated at build time from local data.
           dangerouslySetInnerHTML={{ __html: JSON.stringify(buildStructuredData()) }}
         />
 
         <LanguageProvider>
-          <Preloader />
-          <ScrollProgress />
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:bg-volt focus:px-5 focus:py-2.5 focus:text-sm focus:font-bold focus:text-white"
+          >
+            Skip to content
+          </a>
 
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-100 focus:bg-cyan focus:px-5 focus:py-2.5 focus:text-sm focus:font-bold focus:text-ink"
-        >
-          Skip to content
-        </a>
+          <TopBar />
 
-        <TopBar />
-        <PipelineRail />
-
-        <main id="main" className="relative z-10">
-          {children}
-        </main>
+          <main id="main" className="relative z-10">
+            {children}
+          </main>
 
           <Footer />
-          <BackToTop />
         </LanguageProvider>
       </body>
     </html>

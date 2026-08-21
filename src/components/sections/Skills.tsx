@@ -28,7 +28,7 @@ export function Skills() {
   const activeCopy = groups[active.id];
 
   return (
-    <div className="shell py-16 sm:py-20 xl:pl-[calc(var(--rail-w)-4rem)]">
+    <div className="shell py-16 sm:py-20">
       <QueryHeading
         query={t.skills.query}
         meta={`${TOTAL_SKILLS} ${t.skills.metaRows} · ${SKILL_CATEGORIES.length} ${t.skills.metaGroups}`}

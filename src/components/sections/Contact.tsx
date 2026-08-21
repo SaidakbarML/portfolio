@@ -67,7 +67,7 @@ export function Contact() {
   }
 
   return (
-    <div className="shell py-16 sm:py-20 xl:pl-[calc(var(--rail-w)-4rem)]">
+    <div className="shell py-16 sm:py-20">
       <QueryHeading
         query={t.contact.query}
         meta={t.contact.meta}

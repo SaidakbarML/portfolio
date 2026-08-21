@@ -88,8 +88,19 @@
 
 :root {
   color-scheme: dark;
-  --nav-offset: 5rem;
-  --rail-w: 15rem;
+  --nav-offset: 4rem;
+
+  /* Global surface tokens — single dark theme throughout */
+  --surface: var(--color-ink);
+  --surface-2: var(--color-ink-2);
+  --fg: #f2f3f9;
+  --fg-muted: #9aa0bd;
+  --fg-faint: #5a6080;
+  --line: rgb(255 255 255 / 0.1);
+  --line-strong: rgb(255 255 255 / 0.22);
+  --accent: var(--color-volt);
+  --accent-2: var(--color-cyan);
+  --on-accent: #ffffff;
 }
 
 @layer base {
@@ -119,17 +130,16 @@
 
   h1, h2, h3, h4 {
     text-wrap: balance;
-    letter-spacing: -0.045em;
-    line-height: 0.92;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
   }
 
   p { text-wrap: pretty; }
 
-  ::-webkit-scrollbar { width: 12px; }
+  ::-webkit-scrollbar { width: 6px; }
   ::-webkit-scrollbar-track { background: var(--color-ink); }
   ::-webkit-scrollbar-thumb {
-    background: var(--color-volt);
-    border: 4px solid var(--color-ink);
+    background: rgb(255 255 255 / 0.15);
     border-radius: 99px;
   }
 }
@@ -140,9 +150,9 @@
 
 @utility shell {
   width: 100%;
-  max-width: 84rem;
+  max-width: 76rem;
   margin-inline: auto;
-  padding-inline: 1.25rem;
+  padding-inline: 1.5rem;
 
   @media (width >= 40rem) { padding-inline: 2.5rem; }
   @media (width >= 80rem) { padding-inline: 4rem; }
@@ -173,15 +183,15 @@
 @utility mono-label {
   font-family: var(--font-mono);
   font-size: 0.6875rem;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--fg-faint);
+  color: rgb(255 255 255 / 0.38);
 }
 
 @utility display {
   font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 0.88;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
 }
 
 @utility grid-bg {

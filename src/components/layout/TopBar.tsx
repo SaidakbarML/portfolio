@@ -2,42 +2,29 @@
 
 import * as React from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Command, Menu, X } from "lucide-react";
+import { Menu, X } from "lucide-react";
 
 import { NAV_ITEMS } from "@/constants/navigation";
 import { SITE } from "@/constants/site";
 import { useScrollSpy } from "@/hooks/useScrollSpy";
-import { useSurfaceTone } from "@/hooks/useSurfaceTone";
-import { CommandPalette } from "@/components/layout/CommandPalette";
-import { LanguageSwitcher } from "@/components/layout/LanguageSwitcher";
 import { useI18n } from "@/i18n/LanguageProvider";
-import { EASE_OUT_EXPO } from "@/lib/motion";
 import { cn } from "@/lib/utils";
 
 const SECTION_IDS = NAV_ITEMS.map((item) => item.id);
+const NAV_LINKS = NAV_ITEMS.filter((item) => item.id !== "home");
 
-/**
- * Slim status bar. The DAG rail is the primary navigation on desktop, so this
- * carries identity, the command palette and the mobile menu only.
- */
 export function TopBar() {
   const [mobileOpen, setMobileOpen] = React.useState(false);
-  const [paletteOpen, setPaletteOpen] = React.useState(false);
+  const [scrolled, setScrolled] = React.useState(false);
   const activeId = useScrollSpy(SECTION_IDS);
   const { t } = useI18n();
 
-  const active = NAV_ITEMS.find((item) => item.id === activeId) ?? NAV_ITEMS[0];
-  const onPaper = useSurfaceTone(28) === "paper";
-
   React.useEffect(() => {
-    function onKeyDown(event: KeyboardEvent) {
-      if (event.key.toLowerCase() === "k" && (event.metaKey || event.ctrlKey)) {
-        event.preventDefault();
-        setPaletteOpen((open) => !open);
-      }
+    function onScroll() {
+      setScrolled(window.scrollY > 40);
     }
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   React.useEffect(() => {
@@ -49,151 +36,91 @@ export function TopBar() {
 
   return (
     <>
-      <motion.header
-        initial={{ y: -60, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.7, delay: 0.9, ease: EASE_OUT_EXPO }}
+      <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 border-b backdrop-blur-xl transition-colors duration-500",
-          onPaper
-            ? "border-ink/12 bg-paper/80 text-ink"
-            : "border-white/12 bg-ink/75 text-white",
+          "fixed inset-x-0 top-0 z-50 transition-all duration-300",
+          scrolled
+            ? "border-b border-white/10 bg-ink/90 backdrop-blur-xl"
+            : "bg-transparent",
         )}
       >
-        <div className="flex h-14 items-center justify-between gap-4 px-5 sm:px-8">
-          <a href="#home" className="flex items-center gap-3" aria-label={`${SITE.name} — ${t.a11y.home}`}>
-            <span
-              className={cn(
-                "flex size-7 items-center justify-center rounded-[3px] font-mono text-[11px] font-bold transition-colors duration-500",
-                onPaper ? "bg-volt text-white" : "bg-cyan text-ink",
-              )}
-            >
-              SU
-            </span>
-            <span className="text-[13px] font-semibold tracking-tight">{SITE.name}</span>
-            <span
-              className={cn(
-                "ml-1 hidden font-mono text-[10px] tracking-[0.18em] uppercase sm:inline",
-                onPaper ? "text-ink/45" : "text-white/40",
-              )}
-            >
-              / {active.task}
-            </span>
+        <div className="shell flex h-16 items-center justify-between gap-8">
+          <a
+            href="#home"
+            aria-label={`${SITE.name} — home`}
+            className="text-sm font-semibold tracking-tight text-white transition-opacity hover:opacity-70"
+          >
+            {SITE.name}
           </a>
 
-          <div className="flex items-center gap-2.5">
-            <span
-              className={cn(
-                "hidden items-center gap-2 font-mono text-[10px] uppercase tracking-[0.18em] md:flex",
-                onPaper ? "text-ink/45" : "text-white/40",
-              )}
-            >
-              <span className="relative flex size-1.5">
-                <span className="absolute inline-flex size-full animate-ping rounded-full bg-lime opacity-70" />
-                <span className="relative inline-flex size-1.5 rounded-full bg-lime" />
-              </span>
-              {t.topbar.openToWork}
-            </span>
+          <nav className="hidden items-center gap-6 lg:flex" aria-label="Main navigation">
+            {NAV_LINKS.map((item) => (
+              <a
+                key={item.id}
+                href={`#${item.id}`}
+                className={cn(
+                  "text-sm transition-colors",
+                  activeId === item.id
+                    ? "text-white"
+                    : "text-white/50 hover:text-white/80",
+                )}
+              >
+                {t.nav[item.id]}
+              </a>
+            ))}
+          </nav>
 
-            <button
-              type="button"
-              onClick={() => setPaletteOpen(true)}
-              aria-label={t.a11y.openPalette}
-              className={cn(
-                "hidden items-center gap-1.5 rounded-[4px] border px-2.5 py-1.5 font-mono text-[11px] transition-colors md:flex",
-                onPaper
-                  ? "border-ink/15 text-ink/60 hover:border-ink/40 hover:text-ink"
-                  : "border-white/15 text-white/55 hover:border-white/40 hover:text-white",
-              )}
-            >
-              <Command className="size-3" />K
-            </button>
-
-            <LanguageSwitcher onPaper={onPaper} />
-
+          <div className="flex items-center gap-3">
             <a
               href="#contact"
-              className={cn(
-                "rounded-[4px] px-4 py-2 text-[13px] font-semibold transition-transform hover:-translate-y-0.5",
-                onPaper ? "bg-ink text-paper" : "bg-cyan text-ink",
-              )}
+              className="hidden rounded px-4 py-2 text-[13px] font-semibold bg-volt text-white transition-opacity hover:opacity-85 lg:block"
             >
               {t.topbar.hireMe}
             </a>
-
             <button
               type="button"
-              onClick={() => setMobileOpen((open) => !open)}
-              aria-label={mobileOpen ? t.a11y.closeMenu : t.a11y.openMenu}
+              onClick={() => setMobileOpen((o) => !o)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
-              className={cn(
-                "flex size-9 items-center justify-center rounded-[4px] border xl:hidden",
-                onPaper ? "border-ink/15" : "border-white/15",
-              )}
+              className="flex size-9 items-center justify-center rounded border border-white/15 lg:hidden"
             >
               {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
             </button>
           </div>
         </div>
-      </motion.header>
+      </header>
 
-      {/* Mobile: the DAG rendered full-screen */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            className="fixed inset-0 z-40 bg-ink pt-14 xl:hidden"
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-ink pt-16 lg:hidden"
           >
-            <motion.ol
-              initial="hidden"
-              animate="show"
-              variants={{
-                hidden: {},
-                show: { transition: { staggerChildren: 0.05, delayChildren: 0.1 } },
-              }}
-              className="flex h-full flex-col justify-center gap-1 px-8"
-            >
+            <nav className="flex flex-col px-6 pt-4" aria-label="Mobile navigation">
               {NAV_ITEMS.map((item) => (
-                <motion.li
+                <a
                   key={item.id}
-                  variants={{
-                    hidden: { opacity: 0, x: -24 },
-                    show: {
-                      opacity: 1,
-                      x: 0,
-                      transition: { duration: 0.5, ease: EASE_OUT_EXPO },
-                    },
-                  }}
+                  href={`#${item.id}`}
+                  onClick={() => setMobileOpen(false)}
+                  className="border-b border-white/10 py-4 text-2xl font-semibold tracking-tight text-white/70 transition-colors hover:text-white"
                 >
-                  <a
-                    href={`#${item.id}`}
-                    onClick={() => setMobileOpen(false)}
-                    className="flex items-baseline gap-4 border-b border-white/10 py-4"
-                  >
-                    <span className="font-mono text-[11px] text-cyan">{item.stage}</span>
-                    <span
-                      className={cn(
-                        "text-2xl font-semibold tracking-tight",
-                        activeId === item.id ? "text-cyan" : "text-white/70",
-                      )}
-                    >
-                      {t.nav[item.id]}
-                    </span>
-                    <span className="ml-auto font-mono text-[10px] uppercase tracking-widest text-white/30">
-                      {item.task}
-                    </span>
-                  </a>
-                </motion.li>
+                  {t.nav[item.id]}
+                </a>
               ))}
-            </motion.ol>
+              <a
+                href="#contact"
+                onClick={() => setMobileOpen(false)}
+                className="mt-8 rounded px-6 py-3.5 text-center text-sm font-bold bg-volt text-white"
+              >
+                {t.topbar.hireMe}
+              </a>
+            </nav>
           </motion.div>
         )}
       </AnimatePresence>
-
-      <CommandPalette open={paletteOpen} onOpenChange={setPaletteOpen} />
     </>
   );
 }

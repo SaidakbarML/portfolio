@@ -14,7 +14,7 @@ export function Certificates() {
   const items = t.certificates.items as Record<string, { name: string; skills: string[] }>;
 
   return (
-    <div className="shell py-16 sm:py-20 xl:pl-[calc(var(--rail-w)-4rem)]">
+    <div className="shell py-16 sm:py-20">
       <QueryHeading
         query={t.certificates.query}
         meta={`${CERTIFICATES.length} ${t.certificates.meta}`}

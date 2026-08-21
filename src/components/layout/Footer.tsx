@@ -21,7 +21,7 @@ export function Footer() {
 
   return (
     <footer data-tone="ink" className="slab-ink relative z-10 border-t border-white/12">
-      <div className="shell py-10 xl:pl-[calc(var(--rail-w)-4rem)]">
+      <div className="shell py-10">
         <div className="flex flex-col gap-10 lg:flex-row lg:justify-between">
           <div className="max-w-sm">
             <a href="#home" className="flex items-center gap-3">
@@ -43,9 +43,8 @@ export function Footer() {
               <a
                 key={item.id}
                 href={`#${item.id}`}
-                className="group flex items-baseline gap-2.5 py-1 text-[14px] text-white/50 transition-colors hover:text-white"
+                className="py-1 text-[14px] text-white/50 transition-colors hover:text-white"
               >
-                <span className="font-mono text-[10px] text-white/25">{item.stage}</span>
                 {t.nav[item.id]}
               </a>
             ))}

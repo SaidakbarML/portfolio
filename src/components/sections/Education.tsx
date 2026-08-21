@@ -26,7 +26,7 @@ export function Education() {
   >;
 
   return (
-    <div className="shell py-16 sm:py-20 xl:pl-[calc(var(--rail-w)-4rem)]">
+    <div className="shell py-16 sm:py-20">
       <QueryHeading
         query={t.education.query}
         meta={`${EDUCATION.length} ${t.education.meta}`}

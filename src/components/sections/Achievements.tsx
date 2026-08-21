@@ -17,7 +17,7 @@ export function Achievements() {
   >;
 
   return (
-    <div className="shell pb-16 pt-4 sm:pb-20 xl:pl-[calc(var(--rail-w)-4rem)]">
+    <div className="shell pb-16 pt-4 sm:pb-20">
       <QueryHeading
         query={t.achievements.query}
         meta={`${ACHIEVEMENTS.length} ${t.achievements.meta}`}
