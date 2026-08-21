@@ -87,19 +87,19 @@
 /* -------------------------------------------------------------------- */
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
   --nav-offset: 4rem;
 
-  /* Global surface tokens — single dark theme throughout */
-  --surface: var(--color-ink);
-  --surface-2: var(--color-ink-2);
-  --fg: #f2f3f9;
-  --fg-muted: #9aa0bd;
-  --fg-faint: #5a6080;
-  --line: rgb(255 255 255 / 0.1);
-  --line-strong: rgb(255 255 255 / 0.22);
-  --accent: var(--color-volt);
-  --accent-2: var(--color-cyan);
+  /* Light theme tokens */
+  --surface: #ffffff;
+  --surface-2: #f4f6fb;
+  --fg: #111827;
+  --fg-muted: #6b7280;
+  --fg-faint: #9ca3af;
+  --line: rgb(0 0 0 / 0.08);
+  --line-strong: rgb(0 0 0 / 0.18);
+  --accent: #3d5afe;
+  --accent-2: #7c3aed;
   --on-accent: #ffffff;
 }
 
@@ -111,8 +111,8 @@
   }
 
   body {
-    background-color: var(--color-ink);
-    color: #f6f7fb;
+    background-color: #ffffff;
+    color: #111827;
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
     overflow-x: clip;
@@ -137,9 +137,9 @@
   p { text-wrap: pretty; }
 
   ::-webkit-scrollbar { width: 6px; }
-  ::-webkit-scrollbar-track { background: var(--color-ink); }
+  ::-webkit-scrollbar-track { background: #f1f1f1; }
   ::-webkit-scrollbar-thumb {
-    background: rgb(255 255 255 / 0.15);
+    background: rgb(0 0 0 / 0.15);
     border-radius: 99px;
   }
 }
@@ -185,7 +185,7 @@
   font-size: 0.6875rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: rgb(255 255 255 / 0.38);
+  color: rgb(0 0 0 / 0.38);
 }
 
 @utility display {

@@ -1,4 +1,3 @@
-import { Slab } from "@/components/layout/Slab";
 import { About } from "@/components/sections/About";
 import { Achievements } from "@/components/sections/Achievements";
 import { Certificates } from "@/components/sections/Certificates";
@@ -13,40 +12,40 @@ import { Stats } from "@/components/sections/Stats";
 export default function Home() {
   return (
     <>
-      <Slab id="home" tone="ink">
+      <section id="home" className="scroll-mt-16">
         <Hero />
-      </Slab>
+      </section>
 
-      <Slab id="about" tone="ink">
+      <section id="about" aria-label="About" className="scroll-mt-16 border-t border-black/8">
         <About />
-      </Slab>
+      </section>
 
       <Stats />
 
-      <Slab id="experience" tone="ink">
+      <section id="experience" aria-label="Experience" className="scroll-mt-16 border-t border-black/8">
         <Experience />
-      </Slab>
+      </section>
 
-      <Slab id="projects" tone="ink">
+      <section id="projects" aria-label="Projects" className="scroll-mt-16 border-t border-black/8">
         <Projects />
-      </Slab>
+      </section>
 
-      <Slab id="skills" tone="ink">
+      <section id="skills" aria-label="Skills" className="scroll-mt-16 border-t border-black/8">
         <Skills />
         <Achievements />
-      </Slab>
+      </section>
 
-      <Slab id="education" tone="ink">
+      <section id="education" aria-label="Education" className="scroll-mt-16 border-t border-black/8">
         <Education />
-      </Slab>
+      </section>
 
-      <Slab id="certificates" tone="ink">
+      <section id="certificates" aria-label="Certificates" className="scroll-mt-16 border-t border-black/8">
         <Certificates />
-      </Slab>
+      </section>
 
-      <Slab id="contact" tone="ink">
+      <section id="contact" aria-label="Contact" className="scroll-mt-16 border-t border-black/8">
         <Contact />
-      </Slab>
+      </section>
     </>
   );
 }

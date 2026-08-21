@@ -25,7 +25,7 @@ export function QueryHeading({ title, accentWord, lede, className }: QueryHeadin
         initial={{ opacity: 0, y: 16 }}
         animate={inView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.5, ease: EASE_OUT_EXPO }}
-        className="text-[clamp(2rem,5vw,3.25rem)] font-bold tracking-tight leading-[1.05]"
+        className="text-[clamp(2rem,5vw,3.25rem)] font-bold tracking-tight leading-[1.05] text-gray-900"
       >
         {title}
         {accentWord && (
@@ -38,7 +38,7 @@ export function QueryHeading({ title, accentWord, lede, className }: QueryHeadin
           initial={{ opacity: 0, y: 12 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.5, delay: 0.15, ease: EASE_OUT_EXPO }}
-          className="mt-4 max-w-2xl text-[17px] leading-relaxed text-white/60"
+          className="mt-4 max-w-2xl text-[17px] leading-relaxed text-gray-500"
         >
           {lede}
         </motion.p>

@@ -40,7 +40,7 @@ export function TopBar() {
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-300",
           scrolled
-            ? "border-b border-white/10 bg-ink/90 backdrop-blur-xl"
+            ? "border-b border-black/8 bg-white/95 backdrop-blur-xl"
             : "bg-transparent",
         )}
       >
@@ -48,7 +48,7 @@ export function TopBar() {
           <a
             href="#home"
             aria-label={`${SITE.name} — home`}
-            className="text-sm font-semibold tracking-tight text-white transition-opacity hover:opacity-70"
+            className="text-sm font-semibold tracking-tight text-gray-900 transition-opacity hover:opacity-60"
           >
             {SITE.name}
           </a>
@@ -61,8 +61,8 @@ export function TopBar() {
                 className={cn(
                   "text-sm transition-colors",
                   activeId === item.id
-                    ? "text-white"
-                    : "text-white/50 hover:text-white/80",
+                    ? "text-gray-900 font-medium"
+                    : "text-gray-500 hover:text-gray-900",
                 )}
               >
                 {t.nav[item.id]}
@@ -82,7 +82,7 @@ export function TopBar() {
               onClick={() => setMobileOpen((o) => !o)}
               aria-label={mobileOpen ? "Close menu" : "Open menu"}
               aria-expanded={mobileOpen}
-              className="flex size-9 items-center justify-center rounded border border-white/15 lg:hidden"
+              className="flex size-9 items-center justify-center rounded border border-black/12 text-gray-700 lg:hidden"
             >
               {mobileOpen ? <X className="size-4" /> : <Menu className="size-4" />}
             </button>
@@ -97,7 +97,7 @@ export function TopBar() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-ink pt-16 lg:hidden"
+            className="fixed inset-0 z-40 bg-white pt-16 lg:hidden"
           >
             <nav className="flex flex-col px-6 pt-4" aria-label="Mobile navigation">
               {NAV_ITEMS.map((item) => (
@@ -105,7 +105,7 @@ export function TopBar() {
                   key={item.id}
                   href={`#${item.id}`}
                   onClick={() => setMobileOpen(false)}
-                  className="border-b border-white/10 py-4 text-2xl font-semibold tracking-tight text-white/70 transition-colors hover:text-white"
+                  className="border-b border-black/8 py-4 text-2xl font-semibold tracking-tight text-gray-500 transition-colors hover:text-gray-900"
                 >
                   {t.nav[item.id]}
                 </a>

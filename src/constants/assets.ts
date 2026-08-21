@@ -54,7 +54,7 @@ export const AVAILABLE_ASSETS = new Set<string>([
   "/images/education/tsue-campus.png",
 
   // ── Not supplied yet ───────────────────────────────────────────────────
-  // "/images/profile.jpg",
+  "/images/profile.jpg",
   // "/images/diagrams/asint-architecture.png",
   // "/images/diagrams/dwh-architecture.png",
   // "/images/diagrams/efahub-architecture.png",
